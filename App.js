@@ -4,6 +4,7 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 import LoginScreen from './screens/LoginScreen';
 import AboutScreen from './screens/AboutUsScreen';
 import HomeScreen from './screens/HomeScreen';
+import SignupScreen from './screens/SignupScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +20,9 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="AboutUs" component={AboutScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+

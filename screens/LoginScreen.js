@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { Image,ImageBackground, View, TouchableOpacity, Text, TextInput, StyleSheet, Alert, Dimensions, Platform, SafeAreaView, StatusBar, KeyboardAvoidingView } from 'react-native';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
 function LoginScreen({ navigation }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
-    const handleLoginPress = () => {
-      if (username === '' || password === '') {
-        Alert.alert('Error', 'Please enter your username and password.');
-      } else {
-        navigation.navigate('HomeScreen', { username, password });
-        setUsername('');
-        setPassword('');
-      }
-    };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("User logged in successfully:", user);
+        navigation.navigate("HomeScreen");
+      })
+      .catch((error) => {
+        Alert.alert("Error", "Invalid credentials");
+      });
+  };
 
     const handleSignUpPress = () => {
-      Alert.alert('Success', 'Sign up successful!');
+      navigation.navigate('Signup');
     };
 
     return (
@@ -32,15 +35,26 @@ function LoginScreen({ navigation }) {
               </View>
             </View>
             <View style={styles.section}>
-              <Text style={styles.label}>Username</Text>
-              <TextInput placeholder="type here" placeholderTextColor="#999" value={username} onChangeText={(text) => setUsername(text)} style={styles.input} />
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                value={email}
+                onChangeText={setEmail}
+              />            
             </View>
             <View style={styles.section}>
               <Text style={styles.label}>Password</Text>
-              <TextInput placeholder="type here" placeholderTextColor="#999"  secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} style={styles.input} />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry={true}
+                value={password}
+                onChangeText={setPassword}
+              />            
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={handleLoginPress} style={styles.button}>
+              <TouchableOpacity onPress={handleLogin} style={styles.button}>
                 <Text style={styles.buttonText}>Log in</Text>
               </TouchableOpacity>
               <View style={styles.spacer} />
@@ -169,4 +183,5 @@ function LoginScreen({ navigation }) {
   });
 
 export default LoginScreen;
+
 
