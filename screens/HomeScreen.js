@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ImageBackground, View, Text, TouchableOpacity, ScrollView, Image, StyleSheet } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 function HomeScreen() {
   const navigation = useNavigation();
-  const route = useRoute();
-  const { params: { username, password } = {} } = route;
-function HomeScreen() {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const { params: { username, password } = {} } = route;
- }
+ 
  const [currentIndex, setCurrentIndex] = useState(1);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={require('../assets/bg.jpg')} style={styles.imageBackground}>
         <View style={styles.welcomeContainer}>
-          <Text style={styles.welcomeText}>Welcome {username}!</Text>
+          <Text style={styles.welcomeText}>Welcome to Our App!</Text>
         </View>
         <ScrollView style={styles.scrollView}>
           <View style={styles.contentContainer}>
