@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ImageBackground, View, Text, TouchableOpacity, ScrollView, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import { ref, onValue, set } from "firebase/database";
+import { rtdb } from "../firebaseConfig";
 
 
 function HomeScreen() {
   const navigation = useNavigation();
- 
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    const valueRef = ref(rtdb, "value");
+    return onValue(valueRef, (snapshot) => {
+      setValue(snapshot.val());
+    });
+  }, []);
+
+  const handlePlus = () => {
+    const valueRef = ref(rtdb, "value");
+    set(valueRef, value + 1);
+  };
+
+  const handleMinus = () => {
+    const valueRef = ref(rtdb, "value");
+    set(valueRef, value - 1);
+  };
+
+
  const [currentIndex, setCurrentIndex] = useState(1);
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={require('../assets/bg.jpg')} style={styles.imageBackground}>
@@ -92,7 +115,20 @@ function HomeScreen() {
             </View>
           </View>
 
-
+          <View style={[styles.container,{alignContent: 'center',backgroundColor: '#000',height: 450,margin: 40,borderRadius: 10, border: '1px solid #fff',padding: 20}]}>
+            <View style={[styles.countContainer, { marginTop: 50, border: '1px solid white' }]}>
+              <Text style={[styles.countText, { fontSize: 30, fontWeight: 'bold',textAlign: 'center',color: '#fff',marginBottom: 40 }]}>Counter </Text>
+              <Text style={[styles.value, { fontSize: 48, fontWeight: 'bold',textAlign: 'center',color: '#fff',marginBottom: 40 }]}>{value}</Text>
+              <View style={[styles.buttonContainer, { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }]}>
+                <TouchableOpacity style={[styles.button, { backgroundColor: '#ff5252', borderRadius: 10,marginRight: 10 }]} onPress={handleMinus}>
+                  <Text style={[styles.countText, { color: '#fff', fontSize: 24 }]}>-</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button, { backgroundColor: '#34c759', borderRadius: 10 }]} onPress={handlePlus}>
+                  <Text style={[styles.countText, { color: '#fff', fontSize: 24 }]}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </ScrollView>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.button}>

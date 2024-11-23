@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image,ImageBackground, View, TouchableOpacity, Text, TextInput, StyleSheet, Alert, Dimensions, Platform, SafeAreaView, StatusBar, KeyboardAvoidingView } from 'react-native';
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
