@@ -6,6 +6,8 @@ import {
   getReactNativePersistence,
 } from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
+import{getFirestore}from "firebase/firestore";
+import{getDatabase}from "firebase/database";
 //import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -15,6 +17,7 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 const firebaseConfig = {
   apiKey: "AIzaSyA0mZhb7CiO-5_5VweZ9GrZG9975rW47zI",
   authDomain: "group3firebase.firebaseapp.com",
+  databaseURL:"https://group3firebase-default-rtdb.firebaseio.com/",
   projectId: "group3firebase",
   storageBucket: "group3firebase.appspot.com",
   messagingSenderId: "853237508290",
@@ -24,8 +27,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const rtdb = getDatabase(app);
+const db = getFirestore(app);
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-export { app, auth };
+export { app, auth,db,rtdb };
